@@ -6,13 +6,11 @@ using System.Web.Mvc;
 
 namespace BookSearchApp.Controllers
 {
-	public class HomeController : Controller
-	{
-		public ActionResult Index()
-		{
-			ViewBag.Title = "Home Page";
-
-			return View();
-		}
-	}
+    public class HomeController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+    }
 }

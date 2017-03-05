@@ -1,6 +1,10 @@
-﻿using System;
+﻿using BookSearchApp.Data.Services;
+using BookSearchApp.DI;
+using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Web.Http;
 
 namespace BookSearchApp
@@ -9,16 +13,14 @@ namespace BookSearchApp
 	{
 		public static void Register(HttpConfiguration config)
 		{
-			// Web API configuration and services
+			var container = new UnityContainer();
+			container.RegisterType<IBookService, BookXMLService>(new HierarchicalLifetimeManager());
+			config.DependencyResolver = new UnityResolver(container);
 
-			// Web API routes
 			config.MapHttpAttributeRoutes();
 
-			config.Routes.MapHttpRoute(
-				name: "DefaultApi",
-				routeTemplate: "api/{controller}/{id}",
-				defaults: new { id = RouteParameter.Optional }
-			);
+			config.Formatters.JsonFormatter.SupportedMediaTypes
+				.Add(new MediaTypeHeaderValue("text/html"));
 		}
 	}
 }
